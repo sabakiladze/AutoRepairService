@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37614.0 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoRepairService.Domain", "AutoRepairService.Domain\AutoRepairService.Domain.csproj", "{A9CFDCDC-D1DC-4171-B4CF-C9DEDAB88A94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoRepairService.Application", "AutoRepairService.Application\AutoRepairService.Application.csproj", "{BB5026E1-AA65-4941-AD87-7A62A4BA0EAF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A9CFDCDC-D1DC-4171-B4CF-C9DEDAB88A94} = {A9CFDCDC-D1DC-4171-B4CF-C9DEDAB88A94}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoRepairService.Infrastructure", "AutoRepairService.Infrastructure\AutoRepairService.Infrastructure.csproj", "{42EF7829-91FB-40EF-A370-9467BD489535}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A9CFDCDC-D1DC-4171-B4CF-C9DEDAB88A94} = {A9CFDCDC-D1DC-4171-B4CF-C9DEDAB88A94}
+		{BB5026E1-AA65-4941-AD87-7A62A4BA0EAF} = {BB5026E1-AA65-4941-AD87-7A62A4BA0EAF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoRepairService.WebApi", "AutoRepairService.WebApi\AutoRepairService.WebApi.csproj", "{9AE4C65B-3919-4027-A624-A0446BC9A5D5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{42EF7829-91FB-40EF-A370-9467BD489535} = {42EF7829-91FB-40EF-A370-9467BD489535}
+		{A9CFDCDC-D1DC-4171-B4CF-C9DEDAB88A94} = {A9CFDCDC-D1DC-4171-B4CF-C9DEDAB88A94}
+		{BB5026E1-AA65-4941-AD87-7A62A4BA0EAF} = {BB5026E1-AA65-4941-AD87-7A62A4BA0EAF}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9CFDCDC-D1DC-4171-B4CF-C9DEDAB88A94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9CFDCDC-D1DC-4171-B4CF-C9DEDAB88A94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9CFDCDC-D1DC-4171-B4CF-C9DEDAB88A94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9CFDCDC-D1DC-4171-B4CF-C9DEDAB88A94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB5026E1-AA65-4941-AD87-7A62A4BA0EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB5026E1-AA65-4941-AD87-7A62A4BA0EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB5026E1-AA65-4941-AD87-7A62A4BA0EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB5026E1-AA65-4941-AD87-7A62A4BA0EAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42EF7829-91FB-40EF-A370-9467BD489535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42EF7829-91FB-40EF-A370-9467BD489535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42EF7829-91FB-40EF-A370-9467BD489535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42EF7829-91FB-40EF-A370-9467BD489535}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AE4C65B-3919-4027-A624-A0446BC9A5D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AE4C65B-3919-4027-A624-A0446BC9A5D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AE4C65B-3919-4027-A624-A0446BC9A5D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AE4C65B-3919-4027-A624-A0446BC9A5D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9FE2E8E7-7E4E-46E8-A4F0-6E1EFDEC974D}
+	EndGlobalSection
+EndGlobal

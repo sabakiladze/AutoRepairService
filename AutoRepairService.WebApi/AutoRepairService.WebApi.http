@@ -1,0 +1,6 @@
+@AutoRepairService.WebApi_HostAddress = http://localhost:5173
+
+GET {{AutoRepairService.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
