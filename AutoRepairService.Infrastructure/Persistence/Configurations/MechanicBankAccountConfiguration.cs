@@ -47,7 +47,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
 
 
             // ამასაც ყურადღება. რატომ
-            // არ აქვს <> აქ ტიპი??
+            // არ აქვს <> აქ ტიპი--- ამას იმ დროს გამოვიყენებთ როიდესა 1:1 კავშირი გვაქვს და გვჭირდება დაზუსტება Generic კლასისთვის
             builder.HasOne(x => x.MechanicProfile)
                 .WithMany(x => x.BankAccounts)
                 .HasForeignKey(x => x.MechanicId)
