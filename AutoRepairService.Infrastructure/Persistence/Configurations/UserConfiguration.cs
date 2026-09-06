@@ -24,11 +24,23 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
             builder.Property(x => x.RefreshToken).HasColumnType("varchar(500)");
             builder.Property(x => x.IsActive).HasDefaultValue(true);
             builder.Property(x => x.CreatedAt).HasDefaultValue("SYSDATETIME()");
+            builder.Property(x => x.IsEmailVerified)
+    .HasColumnName("IsEmailVerified")
+    .HasColumnType("bit")
+    .HasDefaultValue(false);
+
+            builder.Property(x => x.EmailVerificationToken)
+                .HasColumnName("EmailVerificationToken")
+                .HasColumnType("varchar(500)");
+
+            builder.Property(x => x.EmailVerificationTokenExpiresAt)
+                .HasColumnName("EmailVerificationTokenExpiresAt")
+                .HasColumnType("datetime2");
 
             // 
         }
-        
-        
+
+
     }
-    
+
 }

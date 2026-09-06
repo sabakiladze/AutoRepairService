@@ -3,12 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutoRepairService.Infrastructure.Persistence;
 
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options)
-    {
-    }
 
     //AppDbContext ის მთავარი დანიშნულებაა რომ ცხრილების მონაცემები აქციოს სიად.
 

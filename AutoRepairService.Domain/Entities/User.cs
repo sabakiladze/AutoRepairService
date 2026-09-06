@@ -22,6 +22,12 @@ namespace AutoRepairService.Domain.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime? LastLoginAt { get; set; }
 
+        public bool IsEmailVerified { get; set; }
+
+        public string? EmailVerificationToken { get; set; }
+
+        public DateTime? EmailVerificationTokenExpiresAt { get; set; }
+
         public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
 
         public MechanicProfile? MechanicProfile { get; set; }

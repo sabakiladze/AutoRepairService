@@ -1,4 +1,5 @@
 ﻿
+using AutoRepairService.Application.Mapping;
 using AutoRepairService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,14 @@ namespace AutoRepairService.WebApi
             builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+            //ეს ხაზი ეუბნება შენს აპლიკაციას,
+            //    რომ ავტომატურად იპოვოს და დაიმახსოვროს 
+            //    შენი დაწერილი ყველა Mapping წესი
+            //    (რომელი ობიექტი რომელზე გადავიდეს).
+            builder.Services.AddAutoMapper(
+    typeof(MappingProfile).Assembly);
 
 
             builder.Services.AddControllers();
