@@ -4,6 +4,7 @@ using AutoRepairService.Application.ServiceInterfaces;
 using AutoRepairService.Domain.CustomExceptions;
 using AutoRepairService.Domain.Entities;
 using AutoRepairService.Domain.Interfaces.RepositoryInterfaces;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,9 +50,10 @@ namespace AutoRepairService.Application.Services
 
             user.RefreshToken = null;
 
-            await _userRepository.UpdateAsync(user);
+            _userRepository.Update(user);
 
             await _unitOfWork.SaveChangesAsync();
+
             // ეს უნდა დავასრულო მას შემდეგ რაც, შევქმნი JWT აუთენთიფიკაციას.
         }
 
@@ -68,34 +70,59 @@ namespace AutoRepairService.Application.Services
 
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
+            user.IsEmailVerified = false;
+            user.EmailVerificationToken = Guid.NewGuid().ToString("N");
+            user.EmailVerificationTokenExpiresAt = DateTime.UtcNow.AddHours(24);
+
+
             await _userRepository.AddAsync(user);
             await _unitOfWork.SaveChangesAsync();
 
+             _emailservice.SendVerificationEmailAsync(user.Email, user.EmailVerificationToken);
             return _mapper.Map<UserResponseDto>(user);
 
-            // ამას უნდა დავამატო ემაილის გაგაზავნა.
-
-            
-
-            //user.IsEmailVerified = false;
-            //user.EmailVerificationToken = Guid.NewGuid().ToString("N");
-            //user.EmailVerificationTokenExpiresAt = DateTime.UtcNow.AddHours(24);
-
-            //await _userRepository.AddAsync(user);
-            //await _unitOfWork.SaveChangesAsync();
-
-            //await _emailService.SendVerificationEmailAsync(
-            //    user.Email,
-            //    user.EmailVerificationToken);
-
-            //return _mapper.Map<UserResponseDto>(user);
-
-            // ზემოთ რაც წერია ისინი უნდა გავაკეთო smtp ისთვის მმაგრა ისედაც დეფაუტ მნიშვნელობები მაქვს და რაღა საჭიროა ეს
         }
 
-        public Task<bool> VerificationAsync(string token)
+        public async Task<bool> VerificationAsync(string token)
         {
-            throw new NotImplementedException();
+            var user= await _userRepository.GetByVerificationTokenAsync(token);
+            if ((user is null || user.EmailVerificationTokenExpiresAt<DateTime.UtcNow))
+            {
+                return false;
+            }
+            user.IsEmailVerified = true;
+            user.EmailVerificationToken = null;
+            user.EmailVerificationTokenExpiresAt = null;
+
+            _userRepository.Update(user);
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return true;
         }
     }
 }
+
+
+//REGISTER
+//   ↓
+//იქმნება User
+//   ↓
+//IsEmailVerified = false
+//   ↓
+//იქმნება EmailVerificationToken
+//   ↓
+//იგზავნება email
+//   ↓
+//მომხმარებელი ადასტურებს email-ს
+//   ↓
+//IsEmailVerified = true
+//   ↓
+//მომხმარებელი აკეთებს LOGIN
+//   ↓
+//Email verified? ✅
+//Password correct? ✅
+//   ↓
+//იქმნება JWT + RefreshToken
+//   ↓
+//Login წარმატებულია

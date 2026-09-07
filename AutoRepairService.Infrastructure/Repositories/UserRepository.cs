@@ -29,7 +29,6 @@ namespace AutoRepairService.Infrastructure.Repositories
                 return;
 
             _appDbContext.Users.Remove(user);
-            await _appDbContext.SaveChangesAsync();
 
         }
 
@@ -49,11 +48,15 @@ namespace AutoRepairService.Infrastructure.Repositories
         {
             return await _appDbContext.Users.FirstOrDefaultAsync(x => x.RefreshToken == refreshtoken);
         }
-
-        public async Task UpdateAsync(User user)
+        public async Task<User?> GetByVerificationTokenAsync(string token)
         {
-            _appDbContext.Users.Update(user);
-            await _appDbContext.SaveChangesAsync();
+            return await _appDbContext.Users
+                .FirstOrDefaultAsync(x => x.EmailVerificationToken == token);
+        }
+        public void  Update(User user)
+        {
+             _appDbContext.Users.Update(user);
+
         }
 
     }

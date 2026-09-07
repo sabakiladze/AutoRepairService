@@ -13,10 +13,11 @@ namespace AutoRepairService.Domain.Interfaces.RepositoryInterfaces
         Task<User?> GetByIdAsync(Guid id);
         Task<User?> GetByEmailAsync(string email);
         Task AddAsync(User user);
-        Task UpdateAsync(User user);
+        void  Update(User user);
         Task DeleteAsync(Guid id);
         Task<User?> GetByRefreshTokenAsync(string refreshtoken);
-          
+        Task<User?> GetByVerificationTokenAsync(string token);
+
         //  როდესაც შევქმნი მის რეპოზიტორს უნდა გადავცე კონსტრუქტორს რეპოზიტორში AppDbContex
 
     }

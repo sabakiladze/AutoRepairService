@@ -1,6 +1,7 @@
 ﻿
 using AutoRepairService.Application.Mapping;
 using AutoRepairService.Infrastructure.Persistence;
+using AutoRepairService.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutoRepairService.WebApi
@@ -28,6 +29,9 @@ namespace AutoRepairService.WebApi
             //    (რომელი ობიექტი რომელზე გადავიდეს).
             builder.Services.AddAutoMapper(
     typeof(MappingProfile).Assembly);
+
+            builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("EmailSettings"));
 
 
             builder.Services.AddControllers();
