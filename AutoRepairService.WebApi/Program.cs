@@ -20,7 +20,7 @@ namespace AutoRepairService.WebApi
             //ხდის ხელმისაწვდომს: ბაზის მართვის ხელსაწყოს (AppDbContext) ამზადებს მთელ პროგრამაში გამოსაყენებლად. პროგრამა ავტომატურად მართავს AppDbContext-ის შექმნას და გადაცემას იქ, სადაც ის გჭირდებათ (ამას .NET-ში Dependency Injection ჰქვია).
             builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Configuration.GetConnectionString("DefaultConnection")));   // AppDbContext მა იცის ყველა სია. ამ კოდით ვეუბნები, რომ როდესაც რეპოზიტორში დამჭირდება ეს ობიექტი რადგან მისი სია გამოვიყენო, თავისით შემნას და არ დამჭირდეს new()
 
 
             //ეს ხაზი ეუბნება შენს აპლიკაციას,
