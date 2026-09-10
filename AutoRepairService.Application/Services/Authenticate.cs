@@ -13,12 +13,13 @@ using System.Threading.Tasks;
 
 namespace AutoRepairService.Application.Services
 {
-    public class Authenticate(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailservice) : IAuthentication
+    public class Authenticate(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailservice, IRoleRepository rolerepository) : IAuthentication
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;
-        private readonly IEmailService _emailservice;
+        private readonly IEmailService? _emailservice;
+        private readonly IRoleRepository? _roleRepository;
 
         public async Task<UserResponseDto?> LoginAsync(LoginRequestDto dto)
         {
@@ -32,6 +33,7 @@ namespace AutoRepairService.Application.Services
 
             if (!user.IsEmailVerified)
                 throw new EmailIsNotVerified();
+
 ;
             return _mapper.Map<UserResponseDto>(user);
 
@@ -66,7 +68,14 @@ namespace AutoRepairService.Application.Services
                 throw new EmailIsAleradyInUseException(nameof(existingUser));
             }
 
+
             var user = _mapper.Map<User>(dto);
+
+
+            //  User-ს ICollenction ში UserRole კი არა Role 
+
+            //user.UserRoles.Add(await _roleRepository.GetRoleByNameAsync("Customer"));
+
 
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
@@ -78,7 +87,7 @@ namespace AutoRepairService.Application.Services
             await _userRepository.AddAsync(user);
             await _unitOfWork.SaveChangesAsync();
 
-             _emailservice.SendVerificationEmailAsync(user.Email, user.EmailVerificationToken);
+            await _emailservice.SendVerificationEmailAsync(user.Email, user.EmailVerificationToken);
             return _mapper.Map<UserResponseDto>(user);
 
         }

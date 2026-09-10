@@ -1,5 +1,9 @@
 ﻿
 using AutoRepairService.Application.Mapping;
+using AutoRepairService.Application.ServiceInterfaces;
+using AutoRepairService.Application.Services;
+using AutoRepairService.Domain.Interfaces.RepositoryInterfaces;
+using AutoRepairService.Infrastructure;
 using AutoRepairService.Infrastructure.Persistence;
 using AutoRepairService.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +36,13 @@ namespace AutoRepairService.WebApi
 
             builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection("EmailSettings"));
+
+            builder.Services.AddScoped<IUserRepository, IUserRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IEmailService, IEmailService>();
+            builder.Services.AddScoped<IAuthentication, Authenticate>();
+            builder.Services.AddScoped<IRoleRepository, IRoleRepository>();
+            
 
 
             builder.Services.AddControllers();

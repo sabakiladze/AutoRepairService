@@ -9,6 +9,7 @@ namespace AutoRepairService.Application.ServiceInterfaces
     public interface IUnitOfWork
     {
         Task<int?> SaveChangesAsync();
+
         // როდესაც ბაზაში იცვლება რაიმე,
         // იმის მიხედვით თუ რამდენი რამე შეიცვალა აბრუნებს რიცხვს.
         // ამიტომ ვაბრუნებინებთ რიცხვს.
