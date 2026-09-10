@@ -12,7 +12,7 @@ namespace AutoRepairService.Infrastructure.Repositories
 {
     public class UserRepository(AppDbContext appdbcontext) : IUserRepository
     {
-        private readonly AppDbContext _appDbContext = appdbcontext;
+        private readonly AppDbContext _appDbContext = appdbcontext;  // AppDbContext შეიცავს ყველა სიას. 
 
         public async Task AddAsync(User user)
         {
