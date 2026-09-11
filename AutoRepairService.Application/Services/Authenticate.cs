@@ -56,7 +56,6 @@ namespace AutoRepairService.Application.Services
 
             await _unitOfWork.SaveChangesAsync();
 
-            // ეს უნდა დავასრულო მას შემდეგ რაც, შევქმნი JWT აუთენთიფიკაციას.
         }
 
         public async Task<UserResponseDto> RegisterAsync(RegisterRequestDto dto)
@@ -76,7 +75,7 @@ namespace AutoRepairService.Application.Services
             }
 
             var user = _mapper.Map<User>(dto);
-
+            await _unitOfWork.SaveChangesAsync();
 
             user.PasswordHash =
                 BCrypt.Net.BCrypt.HashPassword(dto.Password);
@@ -89,7 +88,6 @@ namespace AutoRepairService.Application.Services
 
 
             user.Id = Guid.NewGuid();
-            /// ჯერ არ მაქვს user შექმნილი ამიტომ ვერ დავამატებ userid ს.
             var userRole = new UserRole
             {
                 UserId = user.Id,
@@ -131,25 +129,39 @@ namespace AutoRepairService.Application.Services
 }
 
 
-//REGISTER
-//   ↓
-//იქმნება User
-//   ↓
-//IsEmailVerified = false
-//   ↓
-//იქმნება EmailVerificationToken
-//   ↓
-//იგზავნება email
-//   ↓
-//მომხმარებელი ადასტურებს email-ს
-//   ↓
-//IsEmailVerified = true
-//   ↓
-//მომხმარებელი აკეთებს LOGIN
-//   ↓
-//Email verified? ✅
-//Password correct? ✅
-//   ↓
-//იქმნება JWT + RefreshToken
-//   ↓
-//Login წარმატებულია
+//email / password
+//      ↓
+//User
+//      ↓
+//BCrypt
+//      ↓
+//Email verified?
+//      ↓
+//JWT
+//      +
+//RefreshToken
+//      ↓
+//DB
+//      ↓
+//LoginResponseDto
+
+
+//1.LoginResponseDto
+//        ↓
+//2.ITokenService
+//        ↓
+//3.JwtSettings
+//        ↓
+//4.JwtTokenService
+//        ↓
+//5.RefreshTokenExpiresAt DB - ში
+//        ↓
+//6.LoginAsync - ში JWT + RefreshToken
+//        ↓
+//7.Program.cs → AddJwtBearer
+//        ↓
+//8. [Authorize]
+//        ↓
+//9.Refresh Token endpoint
+//        ↓
+//10. Logout
