@@ -61,40 +61,55 @@ namespace AutoRepairService.Application.Services
 
         public async Task<UserResponseDto> RegisterAsync(RegisterRequestDto dto)
         {
-            var existingUser=await _userRepository.GetByEmailAsync(dto.Email);
+            var existingUser = await _userRepository.GetByEmailAsync(dto.Email);
 
             if (existingUser is not null)
             {
-                throw new EmailIsAleradyInUseException(nameof(existingUser));
+                throw new EmailIsAleradyInUseException(dto.Email);
             }
-            var UserRole=new UserRole {
-            
-            };
 
-          
+            var role = await _roleRepository.GetRoleByNameAsync("Customer");
+
+            if (role is null)
+            {
+                throw new Exception("Customer role was not found.");/// davamato exception
+            }
+
             var user = _mapper.Map<User>(dto);
 
 
-            //  User-ს ICollenction ში UserRole კი არა Role 
+            user.PasswordHash =
+                BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
-            //user.UserRoles.Add(await _roleRepository.GetRoleByNameAsync("Customer"));
+            user.EmailVerificationToken =
+                Guid.NewGuid().ToString("N");
+
+            user.EmailVerificationTokenExpiresAt =
+                DateTime.UtcNow.AddHours(24);
 
 
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+            user.Id = Guid.NewGuid();
+            /// ჯერ არ მაქვს user შექმნილი ამიტომ ვერ დავამატებ userid ს.
+            var userRole = new UserRole
+            {
+                UserId = user.Id,
+                RoleId = role.Id,
+                User = user,
+                Role = role
+            };
 
-            user.IsEmailVerified = false;
-            user.EmailVerificationToken = Guid.NewGuid().ToString("N");
-            user.EmailVerificationTokenExpiresAt = DateTime.UtcNow.AddHours(24);
-
+            user.UserRoles.Add(userRole);
 
             await _userRepository.AddAsync(user);
+
             await _unitOfWork.SaveChangesAsync();
 
-            await _emailservice.SendVerificationEmailAsync(user.Email, user.EmailVerificationToken);
+            await _emailservice.SendVerificationEmailAsync(
+                user.Email,
+                user.EmailVerificationToken);
+
             return _mapper.Map<UserResponseDto>(user);
-
         }
-
         public async Task<bool> VerificationAsync(string token)
         {
             var user= await _userRepository.GetByVerificationTokenAsync(token);
