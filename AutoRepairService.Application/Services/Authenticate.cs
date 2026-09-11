@@ -67,8 +67,11 @@ namespace AutoRepairService.Application.Services
             {
                 throw new EmailIsAleradyInUseException(nameof(existingUser));
             }
+            var UserRole=new UserRole {
+            
+            };
 
-
+          
             var user = _mapper.Map<User>(dto);
 
 
