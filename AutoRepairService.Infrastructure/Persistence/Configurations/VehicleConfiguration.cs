@@ -17,7 +17,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id).HasDefaultValue("NEWID()");
+            builder.Property(x => x.Id).HasDefaultValueSql("NEWID()");
 
             builder.Property(x => x.UserId).HasColumnName("Users_Id").IsRequired(); //ანუ რადგან sql and c# name არ ემთხვევა ამიტომ უნდა დავუწეროთ?
 

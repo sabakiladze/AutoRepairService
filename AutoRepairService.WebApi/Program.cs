@@ -5,6 +5,8 @@ using AutoRepairService.Application.Services;
 using AutoRepairService.Domain.Interfaces.RepositoryInterfaces;
 using AutoRepairService.Infrastructure;
 using AutoRepairService.Infrastructure.Persistence;
+using AutoRepairService.Infrastructure.Repositories;
+using AutoRepairService.Infrastructure.Services;
 using AutoRepairService.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +14,9 @@ namespace AutoRepairService.WebApi
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             // Add services to the container.
 
 
@@ -37,11 +38,11 @@ namespace AutoRepairService.WebApi
             builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection("EmailSettings"));
 
-            builder.Services.AddScoped<IUserRepository, IUserRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<IEmailService, IEmailService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IAuthentication, Authenticate>();
-            builder.Services.AddScoped<IRoleRepository, IRoleRepository>();
+            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             
 
 
@@ -52,6 +53,7 @@ namespace AutoRepairService.WebApi
 
             var app = builder.Build();
 
+           
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

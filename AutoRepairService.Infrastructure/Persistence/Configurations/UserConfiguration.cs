@@ -23,7 +23,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Token).HasColumnType("varchar(max)");
             builder.Property(x => x.RefreshToken).HasColumnType("varchar(500)");
             builder.Property(x => x.IsActive).HasDefaultValue(true);
-            builder.Property(x => x.CreatedAt).HasDefaultValue("SYSDATETIME()");
+            builder.Property(x => x.CreatedAt).HasDefaultValueSql("SYSDATETIME()");
             builder.Property(x => x.IsEmailVerified)
     .HasColumnName("IsEmailVerified")
     .HasColumnType("bit")
