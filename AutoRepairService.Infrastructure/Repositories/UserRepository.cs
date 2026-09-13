@@ -34,7 +34,7 @@ namespace AutoRepairService.Infrastructure.Repositories
 
         public async  Task<User?> GetByEmailAsync(string email)
         {
-            return await _appDbContext.Users
+            return await _appDbContext.Users.Include(x=>x.UserRoles).ThenInclude(x=>x.Role)
                 .FirstOrDefaultAsync(x => x.Email == email);
         }
 
