@@ -14,7 +14,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
 
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("User_table");
+            builder.ToTable("Users_table");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasDefaultValueSql("NEWID()");
             builder.Property(x => x.Email).HasMaxLength(250).IsRequired();
