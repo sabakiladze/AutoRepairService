@@ -13,7 +13,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Vehicle> builder)
         {
-            builder.ToTable("Vehicles_Table");
+            
 
             builder.HasKey(x => x.Id);
 
