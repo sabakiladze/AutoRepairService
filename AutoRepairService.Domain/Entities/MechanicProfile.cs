@@ -20,11 +20,11 @@ namespace AutoRepairService.Domain.Entities
         public bool IsVerified { get; set; }
         public decimal Rating { get; set; }
         public bool IsAvailable { get; set; }
-
+        
         public decimal Latitde { get; set; }
         public decimal Longitde { get; set; }
-
         public int CmpletedJobsCount { get; set; }
+        
         public User User { get; set; } = null!;
 
         public ICollection<PayMent> Payments { get; set; }
