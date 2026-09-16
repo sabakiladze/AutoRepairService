@@ -16,6 +16,8 @@ namespace AutoRepairService.Domain.Entities
 
         public Part Part { get; set; } = null!;
         public Service Service { get; set; } = null!;
+        
+        public int Quantity { get; set; }
 
 
     }

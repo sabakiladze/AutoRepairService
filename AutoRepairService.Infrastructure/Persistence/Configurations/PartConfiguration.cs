@@ -8,7 +8,7 @@ public class PartConfiguration : IEntityTypeConfiguration<Part>
 {
     public void Configure(EntityTypeBuilder<Part> builder)
     {
-        builder.ToTable("Parts_Table");
+       
 
         builder.HasKey(x => x.Id);
 
@@ -31,7 +31,7 @@ public class PartConfiguration : IEntityTypeConfiguration<Part>
         {
             table.HasCheckConstraint(
                 "CK_Parts_Quantity",
-                "[Quantity] > 0");
+                "[Quantity] >= 0");
         });
     }
 }

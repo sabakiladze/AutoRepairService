@@ -39,7 +39,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
 
 
             // checks
-            builder.ToTable("Vehicles_Table", table =>
+            builder.ToTable("Vehicle_Table", table =>
             {
                 table.HasCheckConstraint(
                "CK_Vehicle_Year",

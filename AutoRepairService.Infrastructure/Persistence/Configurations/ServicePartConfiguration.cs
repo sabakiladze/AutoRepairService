@@ -2,15 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AutoRepairService.Infrastructure.Configurations;
-
 public class ServicePartConfiguration
     : IEntityTypeConfiguration<ServicePart>
 {
     public void Configure(EntityTypeBuilder<ServicePart> builder)
     {
-        builder.ToTable("Service_Parts");
-
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
@@ -24,6 +20,13 @@ public class ServicePartConfiguration
             .HasColumnName("Service_Id")
             .IsRequired();
 
+        builder.Property(x => x.Quantity)          
+            .HasDefaultValue(1)
+            .IsRequired();
+
+        builder.HasIndex(x => new { x.PartId, x.ServiceId })   
+            .IsUnique();
+
         builder.HasOne(x => x.Part)
             .WithMany(x => x.ServiceParts)
             .HasForeignKey(x => x.PartId);
@@ -31,5 +34,9 @@ public class ServicePartConfiguration
         builder.HasOne(x => x.Service)
             .WithMany(x => x.ServiceParts)
             .HasForeignKey(x => x.ServiceId);
+
+        builder.ToTable("Service_Parts", table =>              
+            table.HasCheckConstraint("CK_ServiceParts_Quantity", "[Quantity] > 0");
+        });
     }
 }

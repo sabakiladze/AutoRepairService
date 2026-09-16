@@ -8,7 +8,7 @@ public class PaymentConfiguration : IEntityTypeConfiguration<PayMent>
 {
     public void Configure(EntityTypeBuilder<PayMent> builder)
     {
-        builder.ToTable("PayMents_Table");
+        
 
         builder.HasKey(x => x.Id);
 
@@ -78,7 +78,7 @@ public class PaymentConfiguration : IEntityTypeConfiguration<PayMent>
             table.HasCheckConstraint(
                 "CK_Payment_Status",
                 "LOWER([Status]) IN " +
-                "('pending', 'done', 'rejected', 'coudnotmake')");
+                "('Pending', 'Done', 'Rejected', 'CoudNotMake')");
         });
     }
 }
