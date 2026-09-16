@@ -27,8 +27,7 @@ namespace AutoRepairService.Domain.Entities
         public int CmpletedJobsCount { get; set; }
         public User User { get; set; } = null!;
 
-        public ICollection<PayMent> Payments { get; set; }
-    = new List<PayMent>();
+        public ICollection<PayMent> Payments { get; set; }= new List<PayMent>();
         public ICollection<MechanicBankAccount> BankAccounts { get; set; } = new List<MechanicBankAccount>();
         public ICollection<Service> Services { get; set; } = new List<Service>();
     }

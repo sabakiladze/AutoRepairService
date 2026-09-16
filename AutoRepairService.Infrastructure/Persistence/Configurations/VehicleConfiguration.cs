@@ -13,7 +13,6 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Vehicle> builder)
         {
-            builder.ToTable("Vehicles_Table");
 
             builder.HasKey(x => x.Id);
 
@@ -40,7 +39,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
 
 
             // checks
-            builder.ToTable("Vehicle_Table", table =>
+            builder.ToTable("Vehicles_Table", table =>
             {
                 table.HasCheckConstraint(
                "CK_Vehicle_Year",

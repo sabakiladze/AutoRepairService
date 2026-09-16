@@ -27,7 +27,7 @@ namespace AutoRepairService.Infrastructure.Repositories
 
             if (user is null)
                 return;
-
+            
             _appDbContext.Users.Remove(user);
 
         }
