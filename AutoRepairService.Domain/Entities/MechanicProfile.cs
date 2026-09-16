@@ -23,7 +23,7 @@ namespace AutoRepairService.Domain.Entities
         
         public decimal Latitde { get; set; }
         public decimal Longitde { get; set; }
-        public int CmpletedJobsCount { get; set; }
+        public int CompletedJobsCount { get; set; }
         
         public User User { get; set; } = null!;
 
