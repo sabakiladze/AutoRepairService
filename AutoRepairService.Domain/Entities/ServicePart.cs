@@ -17,7 +17,6 @@ namespace AutoRepairService.Domain.Entities
         public Part Part { get; set; } = null!;
         public Service Service { get; set; } = null!;
 
-        public Service Services { get; set; } = null!;
-        public Part Parts { get; set; } = null!;
+
     }
 }

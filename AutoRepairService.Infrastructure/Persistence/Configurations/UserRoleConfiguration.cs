@@ -18,7 +18,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
             builder.HasKey(x => x.Id); // primarykey
             builder.Property(x => x.Id).HasDefaultValueSql("NEWID()");
 
-            builder.Property(x => x.UserId).HasColumnName("User_Id").IsRequired();
+            builder.Property(x => x.UserId).HasColumnName("Users_Id").IsRequired();
 
             builder.Property(x => x.RoleId).HasColumnName("Role_Id").IsRequired(); // აქვს property- იგივე column
 
