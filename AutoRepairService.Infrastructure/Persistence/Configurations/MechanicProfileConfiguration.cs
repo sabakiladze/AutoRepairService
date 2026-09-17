@@ -29,8 +29,8 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
             builder.Property(x=>x.IsVerified).HasDefaultValue(false);
             builder.Property(x => x.Rating).HasPrecision(3, 2).HasDefaultValue(0.00m);
             builder.Property(x => x.IsAvailable).HasDefaultValue(false);
-            builder.Property(x => x.Latitde).HasPrecision(9,6).IsRequired();
-            builder.Property(x=>x.Longitde).HasPrecision(9,6).IsRequired();
+            builder.Property(x => x.Latitude).HasPrecision(9,6).IsRequired();
+            builder.Property(x=>x.Longitude).HasPrecision(9,6).IsRequired();
             builder.Property(x => x.CompletedJobsCount).HasDefaultValue(0);
 
 
