@@ -35,7 +35,7 @@ public class ServicePartConfiguration
             .WithMany(x => x.ServiceParts)
             .HasForeignKey(x => x.ServiceId);
 
-        builder.ToTable("Service_Parts", table =>              
+    builder.ToTable("Service_Parts", table => {           
             table.HasCheckConstraint("CK_ServiceParts_Quantity", "[Quantity] > 0");
         });
     }
