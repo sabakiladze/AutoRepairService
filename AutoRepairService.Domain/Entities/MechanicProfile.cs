@@ -21,8 +21,8 @@ namespace AutoRepairService.Domain.Entities
         public decimal Rating { get; set; }
         public bool IsAvailable { get; set; }
         
-        public decimal Latitde { get; set; }
-        public decimal Longitde { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
         public int CompletedJobsCount { get; set; }
         
         public User User { get; set; } = null!;
