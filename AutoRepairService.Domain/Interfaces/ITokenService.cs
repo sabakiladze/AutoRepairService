@@ -9,7 +9,9 @@ namespace AutoRepairService.Domain.Interfaces
 {
     public interface ITokenService
     {
-        string GenerateAccessToken(User user);
-        string GenerateRefreshToken();
-    }
+       string GenerateAccessToken(User user);
+       string GenerateRefreshToken();
+
+        // Task<String> არ უნდა refreshtoken, მიუხედავად იმისა, რომ ბაზაში იწერება ამ მეთოდის დანიშნულება ტოკენის გენერირებაა და არა მისი შენახვა
+     }
 }

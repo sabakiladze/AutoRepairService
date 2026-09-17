@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using AutoRepairService.Application.Dtos.Authentication;
 using AutoRepairService.Application.Dtos.UserDto;
 using AutoRepairService.Application.ServiceInterfaces;
 using AutoRepairService.Domain.CustomExceptions;
 using AutoRepairService.Domain.Entities;
+using AutoRepairService.Domain.Interfaces;
 using AutoRepairService.Domain.Interfaces.RepositoryInterfaces;
 using Microsoft.Win32;
 using System;
@@ -13,31 +15,38 @@ using System.Threading.Tasks;
 
 namespace AutoRepairService.Application.Services
 {
-    public class Authenticate(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailservice, IRoleRepository rolerepository) : IAuthentication
+    public class Authenticate(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailservice, IRoleRepository rolerepository, ITokenService tokenservice) : IAuthentication
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IMapper _mapper = mapper;
         private readonly IEmailService? _emailservice;
         private readonly IRoleRepository? _roleRepository;
+        private readonly ITokenService? _tokenService;
 
-        public async Task<UserResponseDto?> LoginAsync(LoginRequestDto dto)
+        public async Task<LoginResponseDto?> LoginAsync(LoginRequestDto dto)
         {
-            var user = await _userRepository.GetByEmailAsync(dto.Email);
-
-            if (user is null)
-                return null;
+            var user = await _userRepository.GetByEmailAsync(dto.Email) ?? throw new EmailOrPasswordIsIncorrectException();
 
             if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
-                return null;
+                throw new EmailOrPasswordIsIncorrectException();
 
             if (!user.IsEmailVerified)
                 throw new EmailIsNotVerified();
 
-;
-            return _mapper.Map<UserResponseDto>(user);
+            string accesstoken=_tokenService.GenerateAccessToken(user);
+            string refreshtoken = _tokenService.GenerateRefreshToken();
 
-            //ამასაც უნდა დავამატოთ jwt
+            user.RefreshToken = refreshtoken;
+            user.RefreshTokenExpiresAt = DateTime.UtcNow.AddDays(2);
+
+            _userRepository.Update(user);
+
+            await _unitOfWork.SaveChangesAsync();
+
+
+            return _mapper.Map<LoginResponseDto>(user);
+
         }
 
         public async Task LogOutAsync(string refreshtoken)
@@ -56,9 +65,11 @@ namespace AutoRepairService.Application.Services
 
             await _unitOfWork.SaveChangesAsync();
 
+            // აქ რეფრესჰტოკენს ვაუქმებ და მის გარეშე არაფრის უფლება არ ექნება კონტროლერში.
+
         }
 
-        public async Task<UserResponseDto> RegisterAsync(RegisterRequestDto dto)
+        public async Task<LoginResponseDto> RegisterAsync(RegisterRequestDto dto)
         {
             var existingUser = await _userRepository.GetByEmailAsync(dto.Email);
 
@@ -67,13 +78,7 @@ namespace AutoRepairService.Application.Services
                 throw new EmailIsAleradyInUseException(dto.Email);
             }
 
-            var role = await _roleRepository.GetRoleByNameAsync("Customer");
-
-            if (role is null)
-            {
-                throw new Exception("Customer role was not found.");/// davamato exception
-            }
-
+            var role = await _roleRepository.GetRoleByNameAsync("Customer") ?? throw new Exception("Customer role was not found.");
             var user = _mapper.Map<User>(dto);
             await _unitOfWork.SaveChangesAsync();
 
@@ -106,7 +111,7 @@ namespace AutoRepairService.Application.Services
                 user.Email,
                 user.EmailVerificationToken);
 
-            return _mapper.Map<UserResponseDto>(user);
+            return _mapper.Map<LoginResponseDto>(user);
         }
         public async Task<bool> VerificationAsync(string token)
         {
@@ -125,6 +130,9 @@ namespace AutoRepairService.Application.Services
 
             return true;
         }
+
+       
+        
     }
 }
 

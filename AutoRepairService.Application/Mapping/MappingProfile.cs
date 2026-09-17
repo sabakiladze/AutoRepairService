@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoRepairService.Application.Dtos.Authentication;
 using AutoRepairService.Application.Dtos.UserDto;
 using AutoRepairService.Domain.Entities;
 using System;
@@ -14,7 +15,9 @@ namespace AutoRepairService.Application.Mapping
         public MappingProfile()
         {
             CreateMap<RegisterRequestDto, User>().ReverseMap();
-            CreateMap<User, UserResponseDto>().ReverseMap();
+
+            CreateMap<User, LoginResponseDto>().ReverseMap();
+
         }
     }
 }

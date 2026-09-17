@@ -15,8 +15,14 @@ namespace AutoRepairService.Domain.Entities
 
         public string Email { get; set; } = null!;
         public string PasswordHash { get; set; } = null!;
-        public string? Token { get; set; }
+       
+        
+
+        // access ტოკენი საჭირო აღარ არის,
+        // იმიტომ რომ ცოტახნიანი არის და ბაზაში შენახვას აზრ არ აქვს.
+        // refreshtoken კი უნდა იყოს ბაზაში რადგან დიდი ხანი აქვს მას სიცოცხლე
         public string? RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiresAt { get; set; }
 
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }

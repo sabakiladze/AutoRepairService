@@ -2,6 +2,7 @@
 using AutoRepairService.Application.Mapping;
 using AutoRepairService.Application.ServiceInterfaces;
 using AutoRepairService.Application.Services;
+using AutoRepairService.Domain.Interfaces;
 using AutoRepairService.Domain.Interfaces.RepositoryInterfaces;
 using AutoRepairService.Infrastructure;
 using AutoRepairService.Infrastructure.Persistence;
@@ -43,8 +44,9 @@ namespace AutoRepairService.WebApi
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IAuthentication, Authenticate>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+            builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
-
+            builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

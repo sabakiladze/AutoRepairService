@@ -32,25 +32,13 @@ namespace AutoRepairService.Infrastructure.Services
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new(JwtRegisteredClaimNames.Email, user.Email)
 
-                //sub
-                //email
-                //role
             };
 
             foreach (var userRole in user.UserRoles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, userRole.Role.RoleName));
-            }/// ???
+            }
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
-
-
-            //SecretKey(string)
-            //     ↓
-            //UTF8 bytes
-            //     ↓
-            //SymmetricSecurityKey
-            //     ↓
-            //    key
 
 
             var credentials = new SigningCredentials(key,SecurityAlgorithms.HmacSha256); /// ეს token ხელი მოაწერე ამ key-ით და გამოიყენე HMAC-SHA256.

@@ -20,7 +20,6 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Email).HasMaxLength(250).IsRequired();
             builder.HasIndex(x => x.Email).IsUnique();
             builder.Property(x => x.PasswordHash).HasColumnType("varchar(250)").IsRequired();
-            builder.Property(x => x.Token).HasColumnType("varchar(max)");
             builder.Property(x => x.RefreshToken).HasColumnType("varchar(500)");
             builder.Property(x => x.IsActive).HasDefaultValue(true);
             builder.Property(x => x.CreatedAt).HasDefaultValueSql("SYSDATETIME()");

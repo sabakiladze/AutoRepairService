@@ -1,4 +1,5 @@
-﻿using AutoRepairService.Application.Dtos.UserDto;
+﻿using AutoRepairService.Application.Dtos.Authentication;
+using AutoRepairService.Application.Dtos.UserDto;
 using AutoRepairService.Application.ServiceInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
@@ -11,13 +12,15 @@ namespace AutoRepairService.WebApi.Controllers
     public class AuthentificationController : ControllerBase
     {
         private readonly IAuthentication _authentication;
-   
+
         public AuthentificationController(IAuthentication authontificate)
         {
             _authentication = authontificate;
         }
 
         [HttpPost("Register")]
+
+        // IActionResult არის ინტერფეისი რომელიც აერთიანებს პასუხებს როგორიცაა badrequest, ok, notfound.
         public async Task<IActionResult> Register(RegisterRequestDto dto)
         {
             try
@@ -29,12 +32,67 @@ namespace AutoRepairService.WebApi.Controllers
                     Data = result
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
             }
 
-            
         }
+
+        [HttpPost("LogIn")]
+        public async Task<IActionResult> LogIn(LoginRequestDto dto)
+        {
+            try
+            {
+                LoginResponseDto result = await _authentication.LoginAsync(dto);
+                return Ok(new
+                {
+                    Message = "Successfuly Logged In!",
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("LogOut")]
+        public async Task<IActionResult> LogOut(string refreshtoken)
+        {
+            try
+            {
+                await _authentication.LogOutAsync(refreshtoken);
+                return Ok("LoggedOut Sucessfully!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("VerifyEmail")]
+        public async Task<IActionResult> VerifyEmail(string verifyemailtoken)
+        {
+            try
+            {
+                bool veirfied = await _authentication.VerificationAsync(verifyemailtoken);
+                return Ok("Your Email Is Verifyed");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //[HttpPost("RefreshToken")]
+        //public async Task<IActionResult> RefreshToken(RefreshTokenDto dto)
+        //{
+
+        //}
+
+
+
+
+        // ცხრილების კონფიგურაციაში საჭიროა შევასწორო deleteon cascade რადგან თუ user წავშლი customerprofile იც უნდა წაიშალოს.
     }
 }
