@@ -78,7 +78,7 @@ public class PaymentConfiguration : IEntityTypeConfiguration<PayMent>
             table.HasCheckConstraint(
                 "CK_Payment_Status",
                 "LOWER([Status]) IN " +
-                "('Pending', 'Done', 'Rejected', 'CoudNotMake')");
+                "('Pending', 'Done', 'Rejected', 'CoudlNotMake')");
         });
     }
 }
