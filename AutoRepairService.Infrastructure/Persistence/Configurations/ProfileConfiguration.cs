@@ -36,7 +36,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
             builder.Property(x => x.ProfileImage)
                 .HasColumnType("varbinary(max)");
 
-            builder.HasOne(x=>x.User).WithOne(x=>x.Profile).HasForeignKey<Profile>(x => x.UserId);
+            builder.HasOne(x=>x.User).WithOne(x=>x.Profile).HasForeignKey<Profile>(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

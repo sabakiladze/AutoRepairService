@@ -13,7 +13,7 @@ namespace AutoRepairService.Domain.Entities
         public Guid CustomerId { get; set; }
         public Guid MechanicId { get; set; }
         public Guid ServiceId { get; set; }
-        public Guid ClientCardId { get; set; }
+        public Guid CustomerCardId { get; set; }
         public Guid MechanicAccountId { get; set; }
 
         public decimal Amount { get; set; }
@@ -24,7 +24,7 @@ namespace AutoRepairService.Domain.Entities
         public CustomerProfile Customer { get; set; } = null!;
         public MechanicProfile Mechanic { get; set; } = null!;
         public Service Service { get; set; } = null!;
-        public Card ClientCard { get; set; } = null!;
+        public Card CustomerCard { get; set; } = null!;
         public MechanicBankAccount MechanicAccount { get; set; } = null!;
     }
 }

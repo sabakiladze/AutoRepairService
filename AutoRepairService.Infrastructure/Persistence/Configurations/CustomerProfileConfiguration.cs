@@ -1,13 +1,6 @@
 ﻿using AutoRepairService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AutoRepairService.Infrastructure.Persistence.Configurations
 {
@@ -22,7 +15,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
             builder.HasIndex(x => x.UserId).IsUnique();
             builder.Property(x => x.DefaultAddress).HasMaxLength(500).IsRequired();
 
-            builder.HasOne(x=>x.User).WithOne(x=>x.CustomerProfile).HasForeignKey<CustomerProfile>(x => x.UserId);
+            builder.HasOne(x => x.User).WithOne(x => x.CustomerProfile).HasForeignKey<CustomerProfile>(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

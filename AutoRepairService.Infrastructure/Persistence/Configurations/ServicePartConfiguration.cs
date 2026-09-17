@@ -29,11 +29,13 @@ public class ServicePartConfiguration
 
         builder.HasOne(x => x.Part)
             .WithMany(x => x.ServiceParts)
-            .HasForeignKey(x => x.PartId);
+            .HasForeignKey(x => x.PartId).
+            OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.Service)
             .WithMany(x => x.ServiceParts)
-            .HasForeignKey(x => x.ServiceId);
+            .HasForeignKey(x => x.ServiceId).
+            OnDelete(DeleteBehavior.Restrict);
 
     builder.ToTable("Service_Parts", table => {           
             table.HasCheckConstraint("CK_ServiceParts_Quantity", "[Quantity] > 0");

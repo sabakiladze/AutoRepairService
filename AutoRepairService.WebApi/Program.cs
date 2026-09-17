@@ -43,7 +43,7 @@ namespace AutoRepairService.WebApi
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IAuthentication, Authenticate>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-            
+
 
 
             builder.Services.AddControllers();
