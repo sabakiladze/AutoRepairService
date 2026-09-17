@@ -31,7 +31,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
             builder.Property(x => x.IsAvailable).HasDefaultValue(false);
             builder.Property(x => x.Latitde).HasPrecision(9,6).IsRequired();
             builder.Property(x=>x.Longitde).HasPrecision(9,6).IsRequired();
-            builder.Property(x => x.CmpletedJobsCount).HasDefaultValue(0);
+            builder.Property(x => x.CompletedJobsCount).HasDefaultValue(0);
 
 
             builder.HasOne(x => x.User).WithOne(x => x.MechanicProfile).HasForeignKey<MechanicProfile>(x => x.UserId);
