@@ -4,6 +4,7 @@ using AutoRepairService.Application.ServiceInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AutoRepairService.WebApi.Controllers
 {
@@ -84,12 +85,22 @@ namespace AutoRepairService.WebApi.Controllers
             }
         }
 
-        //[HttpPost("RefreshToken")]
-        //public async Task<IActionResult> RefreshToken(RefreshTokenDto dto)
-        //{
+        [HttpPost("RefreshToken")]
+        public async Task<IActionResult> RefreshToken(RefreshTokenDto dto)
+        {
+            var token=await _authentication.R
+        }
 
-        //}
+        [HttpDelete("DeleteAccount")]
+        public async Task<IActionResult> DeleteAccount(DeleteUserDto dto)
+        {
+            var userId=User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(userId is null) return Unauthorized(false);
+            var result=await _authentication.DeleteAccountAsync(dto);    
+            return Ok(result);
 
+        }
+        
 
 
 

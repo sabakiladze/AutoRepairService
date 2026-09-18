@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace AutoRepairService.Application.Services
 {
-    public class Authenticate(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailservice, IRoleRepository rolerepository, ITokenService tokenservice) : IAuthentication
+    public class AuthenticationService(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailservice, IRoleRepository rolerepository, ITokenService tokenservice) : IAuthentication
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
@@ -23,6 +23,17 @@ namespace AutoRepairService.Application.Services
         private readonly IEmailService? _emailservice;
         private readonly IRoleRepository? _roleRepository;
         private readonly ITokenService? _tokenService;
+
+        public async Task<bool> DeleteAccountAsync(DeleteUserDto dto)
+        {
+            var user = await _userRepository.GetByIdAsync(dto.UserId);
+            if (user == null) throw new UserNotFoundException();
+            if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.PasswordHash))
+                throw new EmailOrPasswordIsIncorrectException();
+            await _userRepository.DeleteAsync(dto.UserId);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
 
         public async Task<LoginResponseDto?> LoginAsync(LoginRequestDto dto)
         {
