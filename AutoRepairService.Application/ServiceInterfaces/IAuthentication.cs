@@ -15,7 +15,7 @@ namespace AutoRepairService.Application.ServiceInterfaces
         Task<LoginResponseDto?> LoginAsync(LoginRequestDto dto );
         Task<bool> VerificationAsync(string token);
         Task LogOutAsync(string refreshtoken);// რადგან ვაკეტებთ გასვლას, უნდა ვიცოდეთ რომელი ტოკენი უნდა გავაუქმოთ და გავხადოტ null
-
+        Task<LoginResponseDto?> RefreshTokenAsync(RefreshTokenRequestDto dto); //...
         Task<bool> DeleteAccountAsync(DeleteUserDto dto);
 
 
