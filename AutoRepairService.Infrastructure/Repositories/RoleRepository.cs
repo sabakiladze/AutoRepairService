@@ -19,7 +19,16 @@ namespace AutoRepairService.Infrastructure.Repositories
         {
             _appDbContext = appdbcontext;
         }
-        
+
+        public async Task AddRole(string name)
+        {
+            Role role = new Role
+            {
+                RoleName=name
+            };
+             await _appDbContext.Roles.AddAsync(role);
+            await _appDbContext.SaveChangesAsync();
+        }
 
         public async Task<Role?> GetRoleByIdAsync(Guid roleId)
         {
@@ -32,5 +41,13 @@ namespace AutoRepairService.Infrastructure.Repositories
             var role=await _appDbContext.Roles.FirstOrDefaultAsync(x=>x.RoleName.ToLower() == roleName.ToLower());
             return role;
         }
+
+        public async Task<ICollection<Role>?> GetAllRolesAsync()
+        {
+            ICollection<Role> roles = await _appDbContext.Roles.ToListAsync(); 
+            return roles;
+        }
+
+       
     }
 }

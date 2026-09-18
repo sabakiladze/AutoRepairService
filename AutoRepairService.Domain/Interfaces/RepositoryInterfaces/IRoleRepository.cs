@@ -11,5 +11,7 @@ namespace AutoRepairService.Domain.Interfaces.RepositoryInterfaces
     {
         Task<Role?> GetRoleByNameAsync(string roleName);
         Task<Role?> GetRoleByIdAsync(Guid roleId);
+        Task AddRole(string name);
+        Task<ICollection<Role>?> GetAllRolesAsync();
     }
 }

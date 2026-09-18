@@ -1,6 +1,8 @@
 ﻿using AutoRepairService.Application.Dtos.Authentication;
 using AutoRepairService.Application.Dtos.UserDto;
 using AutoRepairService.Application.ServiceInterfaces;
+using AutoRepairService.Domain.Entities;
+using AutoRepairService.Domain.Interfaces.RepositoryInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +12,10 @@ namespace AutoRepairService.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthentificationController(IAuthentication authontificate) : ControllerBase
+    public class AuthentificationController(IAuthentication authontificate, IRoleRepository rolerepository) : ControllerBase
     {
         private readonly IAuthentication _authentication = authontificate;
+        private readonly IRoleRepository _roleRepository=rolerepository;
 
         [HttpPost("Register")]
 
@@ -107,10 +110,23 @@ namespace AutoRepairService.WebApi.Controllers
             return Ok(result);
 
         }
-        
+
+        /// უნდა დავამატო წერილის გაგზავნა როდესაც ვაჭერ არაფერზე არ გადავყავარ.
+
+        [HttpPost]
+        public async Task<IActionResult> AddRoles(string role)
+        {
+            try
+            {
+                await _roleRepository.AddRole(role);
+                return Ok();
+            }
+            catch(Exception ex) {return BadRequest(ex.Message); }
+        }
+        /// უნდა დავამატო როლები
 
 
 
-        // ცხრილების კონფიგურაციაში საჭიროა შევასწორო deleteon cascade რადგან თუ user წავშლი customerprofile იც უნდა წაიშალოს.
+
     }
 }
