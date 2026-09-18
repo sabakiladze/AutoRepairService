@@ -507,8 +507,8 @@ namespace AutoRepairService.Infrastructure.Migrations
                     b.Property<string>("RefreshToken")
                         .HasColumnType("varchar(500)");
 
-                    b.Property<string>("Token")
-                        .HasColumnType("varchar(max)");
+                    b.Property<DateTime?>("RefreshTokenExpiresAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -607,7 +607,7 @@ namespace AutoRepairService.Infrastructure.Migrations
                         .WithMany("Cards")
                         .HasForeignKey("CustomerId")
                         .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -618,7 +618,7 @@ namespace AutoRepairService.Infrastructure.Migrations
                     b.HasOne("AutoRepairService.Domain.Entities.User", "User")
                         .WithOne("CustomerProfile")
                         .HasForeignKey("AutoRepairService.Domain.Entities.CustomerProfile", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -630,7 +630,7 @@ namespace AutoRepairService.Infrastructure.Migrations
                         .WithMany("BankAccounts")
                         .HasForeignKey("MechanicId")
                         .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("MechanicProfile");
@@ -641,7 +641,7 @@ namespace AutoRepairService.Infrastructure.Migrations
                     b.HasOne("AutoRepairService.Domain.Entities.User", "User")
                         .WithOne("MechanicProfile")
                         .HasForeignKey("AutoRepairService.Domain.Entities.MechanicProfile", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -652,33 +652,33 @@ namespace AutoRepairService.Infrastructure.Migrations
                     b.HasOne("AutoRepairService.Domain.Entities.Card", "CustomerCard")
                         .WithMany("Payments")
                         .HasForeignKey("CustomerCardId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AutoRepairService.Domain.Entities.CustomerProfile", "Customer")
                         .WithMany("Payments")
                         .HasForeignKey("CustomerId")
                         .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AutoRepairService.Domain.Entities.MechanicBankAccount", "MechanicAccount")
                         .WithMany("PayMents")
                         .HasForeignKey("MechanicAccountId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AutoRepairService.Domain.Entities.MechanicProfile", "Mechanic")
                         .WithMany("Payments")
                         .HasForeignKey("MechanicId")
                         .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AutoRepairService.Domain.Entities.Service", "Service")
                         .WithMany("Payments")
                         .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -697,7 +697,7 @@ namespace AutoRepairService.Infrastructure.Migrations
                     b.HasOne("AutoRepairService.Domain.Entities.User", "User")
                         .WithOne("Profile")
                         .HasForeignKey("AutoRepairService.Domain.Entities.Profile", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -709,20 +709,20 @@ namespace AutoRepairService.Infrastructure.Migrations
                         .WithMany("Services")
                         .HasForeignKey("CustomerId")
                         .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AutoRepairService.Domain.Entities.MechanicProfile", "Mechanic")
                         .WithMany("Services")
                         .HasForeignKey("MechanicId")
                         .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AutoRepairService.Domain.Entities.Vehicle", "Vehicle")
                         .WithMany("Services")
                         .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -737,13 +737,13 @@ namespace AutoRepairService.Infrastructure.Migrations
                     b.HasOne("AutoRepairService.Domain.Entities.Part", "Part")
                         .WithMany("ServiceParts")
                         .HasForeignKey("PartId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AutoRepairService.Domain.Entities.Service", "Service")
                         .WithMany("ServiceParts")
                         .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Part");

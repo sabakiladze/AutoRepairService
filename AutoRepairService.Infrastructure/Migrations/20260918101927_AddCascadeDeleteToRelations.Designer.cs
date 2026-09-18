@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoRepairService.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260917135724_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20260918101927_AddCascadeDeleteToRelations")]
+    partial class AddCascadeDeleteToRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -510,8 +510,8 @@ namespace AutoRepairService.Infrastructure.Migrations
                     b.Property<string>("RefreshToken")
                         .HasColumnType("varchar(500)");
 
-                    b.Property<string>("Token")
-                        .HasColumnType("varchar(max)");
+                    b.Property<DateTime?>("RefreshTokenExpiresAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

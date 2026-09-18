@@ -34,7 +34,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
             builder.Property(x => x.CompletedJobsCount).HasDefaultValue(0);
 
 
-            builder.HasOne(x => x.User).WithOne(x => x.MechanicProfile).HasForeignKey<MechanicProfile>(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.User).WithOne(x => x.MechanicProfile).HasForeignKey<MechanicProfile>(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
             /// ეს ვერ გავიგე რა.
 
         }

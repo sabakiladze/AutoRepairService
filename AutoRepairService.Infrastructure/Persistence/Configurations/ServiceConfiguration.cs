@@ -68,17 +68,17 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
             .WithMany(x => x.Services)
             .HasForeignKey(x => x.CustomerId)
             .HasPrincipalKey(x => x.UserId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.Mechanic)
             .WithMany(x => x.Services)
             .HasForeignKey(x => x.MechanicId)
             .HasPrincipalKey(x => x.UserId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.Vehicle)
             .WithMany(x => x.Services)
             .HasForeignKey(x => x.VehicleId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

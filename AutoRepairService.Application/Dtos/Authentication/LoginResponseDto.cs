@@ -13,6 +13,8 @@ namespace AutoRepairService.Application.Dtos.Authentication
         public string? AccessToken { get; set; }
         public string? RefreshToken { get; set; }
 
+        // აქ იმიტომაა საჭირო ეს ტოკენები, რომ accesstoken-ის საშუალებით ხვდება სისტემა ვინაა შესული, რადგან მაასში არის მოთავსებული ობიექტის ემაილი, აიდი და როლი.
+        // refreshtoke იმისთვის არის საჭირო რომ სისტემამ წაიღოს ის, შეამოწმოს და ახალი accesstoken დააგენერიროს
 
         // ტოკენები იმისთვისაა საჭირო, რომ მო
 

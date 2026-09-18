@@ -54,24 +54,24 @@ public class PaymentConfiguration : IEntityTypeConfiguration<PayMent>
         builder.HasOne(x => x.Customer)
             .WithMany(x => x.Payments)
             .HasForeignKey(x => x.CustomerId)
-            .HasPrincipalKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
+            .HasPrincipalKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.Mechanic)
             .WithMany(x => x.Payments)
             .HasForeignKey(x => x.MechanicId)
-            .HasPrincipalKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
+            .HasPrincipalKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.Service)
             .WithMany(x => x.Payments)
-            .HasForeignKey(x => x.ServiceId).OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(x => x.ServiceId).OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.CustomerCard)
             .WithMany(x => x.Payments)
-            .HasForeignKey(x => x.CustomerCardId).OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(x => x.CustomerCardId).OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.MechanicAccount)
             .WithMany(x => x.PayMents)
-            .HasForeignKey(x => x.MechanicAccountId).OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(x => x.MechanicAccountId).OnDelete(DeleteBehavior.Cascade);
 
         builder.ToTable("PayMents_Table", table =>
         {

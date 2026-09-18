@@ -76,7 +76,7 @@ namespace AutoRepairService.Infrastructure.Migrations
                         column: x => x.Users_Id,
                         principalTable: "User_table",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,7 +105,7 @@ namespace AutoRepairService.Infrastructure.Migrations
                         column: x => x.Users_Id,
                         principalTable: "User_table",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,7 +128,7 @@ namespace AutoRepairService.Infrastructure.Migrations
                         column: x => x.Users_Id,
                         principalTable: "User_table",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,7 +205,7 @@ namespace AutoRepairService.Infrastructure.Migrations
                         column: x => x.Customer_Id,
                         principalTable: "Customer_Profile_Table",
                         principalColumn: "Users_Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -227,7 +227,7 @@ namespace AutoRepairService.Infrastructure.Migrations
                         column: x => x.Mechanic_Id,
                         principalTable: "Mechanic_Profile_Table",
                         principalColumn: "Users_Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -257,19 +257,19 @@ namespace AutoRepairService.Infrastructure.Migrations
                         column: x => x.Customer_Id,
                         principalTable: "Customer_Profile_Table",
                         principalColumn: "Users_Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Service_Table_Mechanic_Profile_Table_Mechanic_Id",
                         column: x => x.Mechanic_Id,
                         principalTable: "Mechanic_Profile_Table",
                         principalColumn: "Users_Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Service_Table_Vehicle_Table_Vehicle_Id",
                         column: x => x.Vehicle_Id,
                         principalTable: "Vehicle_Table",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -296,31 +296,31 @@ namespace AutoRepairService.Infrastructure.Migrations
                         column: x => x.Customer_Card_Id,
                         principalTable: "Card_Table",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PayMents_Table_Customer_Profile_Table_Customer_Id",
                         column: x => x.Customer_Id,
                         principalTable: "Customer_Profile_Table",
                         principalColumn: "Users_Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PayMents_Table_Mechanic_Bank_Accounts_Table_Mechanic_Account_Id",
                         column: x => x.Mechanic_Account_Id,
                         principalTable: "Mechanic_Bank_Accounts_Table",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PayMents_Table_Mechanic_Profile_Table_Mechanic_Id",
                         column: x => x.Mechanic_Id,
                         principalTable: "Mechanic_Profile_Table",
                         principalColumn: "Users_Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PayMents_Table_Service_Table_Service_Id",
                         column: x => x.Service_Id,
                         principalTable: "Service_Table",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -341,13 +341,13 @@ namespace AutoRepairService.Infrastructure.Migrations
                         column: x => x.Part_Id,
                         principalTable: "Parts_Table",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Service_Parts_Service_Table_Service_Id",
                         column: x => x.Service_Id,
                         principalTable: "Service_Table",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

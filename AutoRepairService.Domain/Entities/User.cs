@@ -22,7 +22,7 @@ namespace AutoRepairService.Domain.Entities
         // იმიტომ რომ ცოტახნიანი არის და ბაზაში შენახვას აზრ არ აქვს.
         // refreshtoken კი უნდა იყოს ბაზაში რადგან დიდი ხანი აქვს მას სიცოცხლე
         public string? RefreshToken { get; set; }
-        public DateTime RefreshTokenExpiresAt { get; set; }
+        public DateTime ? RefreshTokenExpiresAt { get; set; }
 
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -34,13 +34,13 @@ namespace AutoRepairService.Domain.Entities
 
         public DateTime? EmailVerificationTokenExpiresAt { get; set; }
 
-        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+        public ICollection<UserRole> UserRoles { get; set; } = []; // იგივეა რაც new List<Vehicle>();
 
         public MechanicProfile? MechanicProfile { get; set; }
         public CustomerProfile? CustomerProfile { get; set; }
         public Profile? Profile { get; set; }
 
-        public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
+        public ICollection<Vehicle> Vehicles { get; set; } = [];  // იგივეა რაც new List<Vehicle>();
 
     }
 }

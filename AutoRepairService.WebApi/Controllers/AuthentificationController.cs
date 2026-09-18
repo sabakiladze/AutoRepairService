@@ -10,14 +10,9 @@ namespace AutoRepairService.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthentificationController : ControllerBase
+    public class AuthentificationController(IAuthentication authontificate) : ControllerBase
     {
-        private readonly IAuthentication _authentication;
-
-        public AuthentificationController(IAuthentication authontificate)
-        {
-            _authentication = authontificate;
-        }
+        private readonly IAuthentication _authentication = authontificate;
 
         [HttpPost("Register")]
 
@@ -45,7 +40,7 @@ namespace AutoRepairService.WebApi.Controllers
         {
             try
             {
-                LoginResponseDto result = await _authentication.LoginAsync(dto);
+                LoginResponseDto? result = await _authentication.LoginAsync(dto);
                 return Ok(new
                 {
                     Message = "Successfuly Logged In!",
@@ -86,10 +81,22 @@ namespace AutoRepairService.WebApi.Controllers
         }
 
         [HttpPost("RefreshToken")]
-        public async Task<IActionResult> RefreshToken(RefreshTokenDto dto)
+        public async Task<IActionResult> RefreshToken(RequestRefreshTokenDto dto)
         {
-            var token=await _authentication.R
+            try
+            {
+                var user = await _authentication.RefreshTokenAsync(dto);// აბრუნებს loginresponse dto.
+                return Ok(new { 
+                Message="Refresh Token Generated Successfully",
+                Data=user});
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
 
         [HttpDelete("DeleteAccount")]
         public async Task<IActionResult> DeleteAccount(DeleteUserDto dto)

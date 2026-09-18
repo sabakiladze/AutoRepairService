@@ -51,7 +51,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
             builder.HasOne(x => x.MechanicProfile)
                 .WithMany(x => x.BankAccounts)
                 .HasForeignKey(x => x.MechanicId)
-                .HasPrincipalKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);  // ეს ნიშავს რომ fk კავშირი არ მყარდება მხოლოდ მექანიკოსი კლასის pk-ით, მას აქვს userid რომლითაც შეიძლება რომდაკავშირდეს.
+                .HasPrincipalKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);  // ეს ნიშავს რომ fk კავშირი არ მყარდება მხოლოდ მექანიკოსი კლასის pk-ით, მას აქვს userid რომლითაც შეიძლება რომდაკავშირდეს.
                // ეს MechanicId არ უკავშირდება MechanicProfile-ის სტანდარტულ მთავარ გასაღებს (Id), არამედ უკავშირდება MechanicProfile-ის შიგნით არსებულ UserId სვეტს.
         }
     }

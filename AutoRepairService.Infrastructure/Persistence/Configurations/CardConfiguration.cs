@@ -45,7 +45,7 @@ public class CardConfiguration : IEntityTypeConfiguration<Card>
         builder.HasOne(x => x.Customer)
             .WithMany(x => x.Cards)
             .HasForeignKey(x => x.CustomerId)
-            .HasPrincipalKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
+            .HasPrincipalKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
 
         /// ამასაც უნდა მივაქციო ყურადღება რატომ.
         builder.ToTable("Card_Table", table =>

@@ -43,7 +43,7 @@ namespace AutoRepairService.Infrastructure.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<User?> GetByRefreshTokenAsync(string refreshtoken)
+        public async Task<User?> GetByRefreshTokenAsync(string? refreshtoken)
         {
             return await _appDbContext.Users.FirstOrDefaultAsync(x => x.RefreshToken == refreshtoken);
         }

@@ -15,7 +15,7 @@ namespace AutoRepairService.Infrastructure.Persistence.Configurations
             builder.HasIndex(x => x.UserId).IsUnique();
             builder.Property(x => x.DefaultAddress).HasMaxLength(500).IsRequired();
 
-            builder.HasOne(x => x.User).WithOne(x => x.CustomerProfile).HasForeignKey<CustomerProfile>(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.User).WithOne(x => x.CustomerProfile).HasForeignKey<CustomerProfile>(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

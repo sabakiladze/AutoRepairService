@@ -15,7 +15,7 @@ namespace AutoRepairService.Domain.Interfaces.RepositoryInterfaces
         Task AddAsync(User user);
         void  Update(User user);
         Task DeleteAsync(Guid id);
-        Task<User?> GetByRefreshTokenAsync(string refreshtoken);
+        Task<User?> GetByRefreshTokenAsync(string? refreshtoken);
         Task<User?> GetByVerificationTokenAsync(string token);
 
         //  როდესაც შევქმნი მის რეპოზიტორს უნდა გადავცე კონსტრუქტორს რეპოზიტორში AppDbContex
