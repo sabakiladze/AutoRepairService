@@ -3,6 +3,7 @@ using AutoRepairService.Application.Dtos.UserDto;
 using AutoRepairService.Application.ServiceInterfaces;
 using AutoRepairService.Domain.Entities;
 using AutoRepairService.Domain.Interfaces.RepositoryInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -102,7 +103,8 @@ namespace AutoRepairService.WebApi.Controllers
 
 
         [HttpDelete("DeleteAccount")]
-        public async Task<IActionResult> DeleteAccount(Guid UserId, DeleteUserDto dto)
+        [Authorize]
+        public async Task<IActionResult> DeleteAccount( DeleteUserDto dto)
         {
             var userIdClaim=User.FindFirstValue(ClaimTypes.NameIdentifier);
 

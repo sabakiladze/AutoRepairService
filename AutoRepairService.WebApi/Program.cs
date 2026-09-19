@@ -50,6 +50,9 @@ namespace AutoRepairService.WebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection("JwtSettings"));
+
             var app = builder.Build();
 
            
