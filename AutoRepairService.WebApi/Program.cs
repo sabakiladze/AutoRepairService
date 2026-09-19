@@ -84,9 +84,6 @@ namespace AutoRepairService.WebApi
             builder.Services.AddSwaggerGen();
 
 
-            builder.Services.Configure<JwtSettings>(
-    builder.Configuration.GetSection("JwtSettings"));
-
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
            
 
