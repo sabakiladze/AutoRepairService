@@ -76,9 +76,9 @@ namespace AutoRepairService.Application.Services
 
 
 
-        public async Task LogOutAsync(string refreshtoken)
+        public async Task LogOutAsync(RequestRefreshTokenDto dto)
         {
-            var user = await _userRepository.GetByRefreshTokenAsync(refreshtoken);
+            var user = await _userRepository.GetByRefreshTokenAsync(dto.RefreshToken);
             
             if( user is null)
             {

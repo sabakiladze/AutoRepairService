@@ -16,7 +16,7 @@ namespace AutoRepairService.WebApi.Controllers
     public class AuthentificationController(IAuthentication authontificate, IRoleRepository rolerepository) : ControllerBase
     {
         private readonly IAuthentication _authentication = authontificate;
-        private readonly IRoleRepository _roleRepository=rolerepository;
+        private readonly IRoleRepository _roleRepository = rolerepository;
 
         [HttpPost("Register")]
 
@@ -57,11 +57,11 @@ namespace AutoRepairService.WebApi.Controllers
             }
         }
         [HttpPost("LogOut")]
-        public async Task<IActionResult> LogOut(string refreshtoken)
+        public async Task<IActionResult> LogOut(RequestRefreshTokenDto dto)
         {
             try
             {
-                await _authentication.LogOutAsync(refreshtoken);
+                await _authentication.LogOutAsync(dto);
                 return Ok("LoggedOut Sucessfully!");
             }
             catch (Exception ex)
@@ -90,12 +90,12 @@ namespace AutoRepairService.WebApi.Controllers
             try
             {
                 var user = await _authentication.RefreshTokenAsync(dto);// აბრუნებს loginresponse dto.
-                return Ok(new { 
-                Message="Refresh Token Generated Successfully",
-                Data=user});
+                return Ok(new {
+                    Message = "Refresh Token Generated Successfully",
+                    Data = user });
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -104,20 +104,22 @@ namespace AutoRepairService.WebApi.Controllers
 
         [HttpDelete("DeleteAccount")]
         [Authorize]
-        public async Task<IActionResult> DeleteAccount( DeleteUserDto dto)
+        public async Task<IActionResult> DeleteAccount(DeleteUserDto dto)
         {
-            var userIdClaim=User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userIdClaim is null || !Guid.TryParse(userIdClaim, out var userId))
                 return Unauthorized();
 
-            var result=await _authentication.DeleteAccountAsync(userId, dto);    
+            var result = await _authentication.DeleteAccountAsync(userId, dto);
             return Ok(result);
 
         }
 
+        //[HttpGet]// დამკვიდრებული პრაქტიკაა რომ ემაილის ვერიფიკაცია get ზე იყოს. ანუ ემაილზე რომ მივა ლინკი ამ endpont ხე მიმიყვანეს.
 
-       
+
+
 
 
 
