@@ -102,28 +102,20 @@ namespace AutoRepairService.WebApi.Controllers
 
 
         [HttpDelete("DeleteAccount")]
-        public async Task<IActionResult> DeleteAccount(DeleteUserDto dto)
+        public async Task<IActionResult> DeleteAccount(Guid UserId, DeleteUserDto dto)
         {
-            var userId=User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if(userId is null) return Unauthorized(false);
-            var result=await _authentication.DeleteAccountAsync(dto);    
+            var userIdClaim=User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userIdClaim is null || !Guid.TryParse(userIdClaim, out var userId))
+                return Unauthorized();
+
+            var result=await _authentication.DeleteAccountAsync(userId, dto);    
             return Ok(result);
 
         }
 
-        /// უნდა დავამატო წერილის გაგზავნა როდესაც ვაჭერ არაფერზე არ გადავყავარ.
 
-        [HttpPost]
-        public async Task<IActionResult> AddRoles(string role)
-        {
-            try
-            {
-                await _roleRepository.AddRole(role);
-                return Ok();
-            }
-            catch(Exception ex) {return BadRequest(ex.Message); }
-        }
-        /// უნდა დავამატო როლები
+       
 
 
 

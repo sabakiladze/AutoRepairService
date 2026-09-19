@@ -11,6 +11,5 @@ namespace AutoRepairService.Application.Dtos.Authentication
     {
         [Required(ErrorMessage ="Enter Your Current Password Do Confirm That You Want To Delete Your Email Permanently.")]
         public string? CurrentPassword { get; set; }
-        public Guid UserId { get; set; }  //primary key
     }
 }

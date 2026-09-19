@@ -10,15 +10,9 @@ using System.Threading.Tasks;
 
 namespace AutoRepairService.Infrastructure.Repositories
 {
-    public class RoleRepository : IRoleRepository
+    public class RoleRepository(AppDbContext appdbcontext) : IRoleRepository
     {
-        private readonly AppDbContext _appDbContext;
-
-
-        public RoleRepository(AppDbContext appdbcontext)
-        {
-            _appDbContext = appdbcontext;
-        }
+        private readonly AppDbContext _appDbContext = appdbcontext;
 
         public async Task AddRole(string name)
         {

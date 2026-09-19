@@ -1,20 +1,12 @@
 ﻿using AutoRepairService.Domain.Entities;
 using AutoRepairService.Domain.Interfaces;
 using AutoRepairService.Infrastructure.Settings;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.Unicode;
-using System.Threading.Tasks;
 
 namespace AutoRepairService.Infrastructure.Services
 {
@@ -30,8 +22,8 @@ namespace AutoRepairService.Infrastructure.Services
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new(JwtRegisteredClaimNames.Email, user.Email)
-
+                new(JwtRegisteredClaimNames.Email, user.Email),
+                new("email_verified", user.IsEmailVerified.ToString(), ClaimValueTypes.Boolean)
             };
 
             foreach (var userRole in user.UserRoles)

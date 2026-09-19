@@ -1,12 +1,10 @@
-﻿using AutoMapper;
-using AutoRepairService.Application.Dtos.Authentication;
+﻿using AutoRepairService.Application.Dtos.Authentication;
 using AutoRepairService.Application.Dtos.UserDto;
 using AutoRepairService.Application.ServiceInterfaces;
 using AutoRepairService.Domain.CustomExceptions;
 using AutoRepairService.Domain.Entities;
 using AutoRepairService.Domain.Interfaces;
 using AutoRepairService.Domain.Interfaces.RepositoryInterfaces;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,25 +13,24 @@ using System.Threading.Tasks;
 
 namespace AutoRepairService.Application.Services
 {
-    public class AuthenticationService(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailService, IRoleRepository rolerepository, ITokenService tokenservice) : IAuthentication
+    public class AuthenticationService(IUserRepository userRepository, IUnitOfWork unitOfWork,IEmailService emailService, IRoleRepository rolerepository, ITokenService tokenservice) : IAuthentication
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
-        private readonly IMapper _mapper = mapper;
         private readonly IEmailService _emailservice=emailService;
         private readonly IRoleRepository _roleRepository=rolerepository;
         private readonly ITokenService _tokenService=tokenservice;
 
 
 
-        public async Task<bool> DeleteAccountAsync(DeleteUserDto dto)
+        public async Task<bool> DeleteAccountAsync(Guid UserId, DeleteUserDto dto)
         {
-            var user = await _userRepository.GetByIdAsync(dto.UserId) ?? throw new UserNotFoundException();
+            var user = await _userRepository.GetByIdAsync(UserId) ?? throw new UserNotFoundException();
 
             if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.PasswordHash))
                 throw new EmailOrPasswordIsIncorrectException();
 
-            await _userRepository.DeleteAsync(dto.UserId);
+            await _userRepository.DeleteAsync(UserId);
 
             await _unitOfWork.SaveChangesAsync();
 
@@ -52,17 +49,28 @@ namespace AutoRepairService.Application.Services
             if (!user.IsEmailVerified)
                 throw new EmailIsNotVerified();
 
+            string accesstoken = _tokenService.GenerateAccessToken(user);
             string refreshtoken = _tokenService.GenerateRefreshToken();
 
             user.RefreshToken = refreshtoken;
             user.RefreshTokenExpiresAt = DateTime.UtcNow.AddDays(2);
 
             _userRepository.Update(user);
-
             await _unitOfWork.SaveChangesAsync();
 
+            return new LoginResponseDto
+            {
+                User = new UserResponseDto
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    IsEmailVerified = user.IsEmailVerified,
+                    Roles = user.UserRoles.Select(x => x.Role.RoleName).ToList()
+                },
+                RefreshToken = refreshtoken,
+                AccessToken = accesstoken
+            };
 
-            return _mapper.Map<LoginResponseDto>(user);
 
         }
 
@@ -111,16 +119,20 @@ namespace AutoRepairService.Application.Services
             user.RefreshTokenExpiresAt =DateTime.UtcNow.AddDays(7);
 
             _userRepository.Update(user);
-
             await _unitOfWork.SaveChangesAsync();
 
             return new LoginResponseDto
             {
-                User = user,
+                User = new UserResponseDto
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    IsEmailVerified = user.IsEmailVerified,
+                    Roles = user.UserRoles.Select(x => x.Role.RoleName).ToList()
+                },
                 RefreshToken = refreshtoken,
                 AccessToken = accesstoken
             };
-
 
         }
 
@@ -136,8 +148,13 @@ namespace AutoRepairService.Application.Services
             }
 
             var role = await _roleRepository.GetRoleByNameAsync("Customer") ?? throw new Exception("Customer role was not found.");
-            var user = _mapper.Map<User>(dto);
-            await _unitOfWork.SaveChangesAsync();
+
+            var user = new User
+            {
+                Email = dto.Email,
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow
+            };
 
             user.PasswordHash =
                 BCrypt.Net.BCrypt.HashPassword(dto.Password);
@@ -161,14 +178,24 @@ namespace AutoRepairService.Application.Services
             user.UserRoles.Add(userRole);
 
             await _userRepository.AddAsync(user);
-
             await _unitOfWork.SaveChangesAsync();
 
             await _emailservice.SendVerificationEmailAsync(
                 user.Email,
                 user.EmailVerificationToken);
 
-            return _mapper.Map<LoginResponseDto>(user);
+            return new LoginResponseDto
+            {
+                User = new UserResponseDto
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    IsEmailVerified = user.IsEmailVerified,
+                    Roles = user.UserRoles.Select(x => x.Role.RoleName).ToList()
+                },
+                RefreshToken = null,
+                AccessToken = null
+            };
         }
 
 

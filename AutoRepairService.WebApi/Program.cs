@@ -1,5 +1,4 @@
 ﻿
-using AutoRepairService.Application.Mapping;
 using AutoRepairService.Application.ServiceInterfaces;
 using AutoRepairService.Application.Services;
 using AutoRepairService.Domain.Interfaces;
@@ -33,8 +32,7 @@ namespace AutoRepairService.WebApi
             //    რომ ავტომატურად იპოვოს და დაიმახსოვროს 
             //    შენი დაწერილი ყველა Mapping წესი
             //    (რომელი ობიექტი რომელზე გადავიდეს).
-            builder.Services.AddAutoMapper(
-    typeof(MappingProfile).Assembly);
+           
 
             builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection("EmailSettings"));
@@ -46,7 +44,6 @@ namespace AutoRepairService.WebApi
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
-            builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
