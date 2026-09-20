@@ -117,6 +117,11 @@ namespace AutoRepairService.WebApi.Controllers
         }
 
         //[HttpGet]// დამკვიდრებული პრაქტიკაა რომ ემაილის ვერიფიკაცია get ზე იყოს. ანუ ემაილზე რომ მივა ლინკი ამ endpont ხე მიმიყვანეს.
+        // public async Task<IActionResult> VeifyEmail(String VeifyToken)
+        // {
+            
+        // }
+        
 
 
 
